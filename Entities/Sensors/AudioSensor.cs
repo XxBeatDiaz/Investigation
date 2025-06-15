@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace Investigation.Models
 {
-    public class Terrorist
+    public class AudioSensor : Sensor
     {
         string? Name { get; set; }
 
-        string[] Weaknesses = new string[2];
-        Sensor[] Sensors = new Sensor[]
+        public AudioSensor() : base()
         {
-            new AudioSensor(),
-            new ThermalSensor()
-        };
 
+        }
     }
 }
