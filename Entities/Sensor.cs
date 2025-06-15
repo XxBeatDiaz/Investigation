@@ -8,7 +8,7 @@ namespace Investigation.Models
 {
     public class Sensor
     {
-        string Name;
+        string Name { get; set; }
 
         static public int Activat(string[] sensors, string[] weaknesses)
         {
