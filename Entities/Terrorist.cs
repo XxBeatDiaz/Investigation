@@ -8,14 +8,16 @@ namespace Investigation.Models
 {
     public class Terrorist
     {
-        string? Name { get; set; }
+        string? Name;
 
-        string[] Weaknesses = new string[2];
-        Sensor[] Sensors = new Sensor[]
+        public Sensor[] Weaknesses;
+        public Sensor[] Sensors; 
+        
+        public Terrorist(string name, Sensor[] weaknesses)
         {
-            new AudioSensor(),
-            new ThermalSensor()
-        };
-
+            Name = name;
+            Weaknesses = weaknesses;
+            Sensors = new Sensor[2];
+        }
     }
 }

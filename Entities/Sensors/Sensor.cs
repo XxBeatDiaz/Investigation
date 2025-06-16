@@ -8,19 +8,27 @@ namespace Investigation.Models
 {
     public class Sensor
     {
-        string? Name { get; set; }
+        public string? Name { get; set; } 
+        public string? TypeSensor { get; set; }
+        public bool FlagActive { get; set; }
 
-        static public int Activat(string[] sensors, string[] weaknesses)
+        public Sensor()
         {
-            int counterActivates = 1;
-            foreach (var sensor in sensors)
+            Name = "Sensor";
+            TypeSensor = "Sensor";
+            FlagActive = false;
+        }
+
+        public bool IsActivate(Sensor[] weaknesses)
+        {
+            for (int i = 0; i < weaknesses.Length; i++)
             {
-                if (weaknesses.Contains(sensor))
+                if (TypeSensor == weaknesses[i].TypeSensor)
                 {
-                    counterActivates++;
+                    return true;
                 }
             }
-            return counterActivates;
+            return false;
         }
     }
 }

@@ -8,11 +8,10 @@ namespace Investigation.Models
 {
     public class AudioSensor : Sensor
     {
-        string? Name { get; set; }
-
         public AudioSensor() : base()
         {
-
-        }
+            Name = "Audio sensor";
+            TypeSensor = "Audio sensor";
+        }       
     }
 }
