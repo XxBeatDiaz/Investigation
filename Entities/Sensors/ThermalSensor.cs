@@ -8,11 +8,10 @@ namespace Investigation.Models
 {
     public class ThermalSensor : Sensor
     {
-        string? Name { get; set; }
-
         public ThermalSensor() : base()
         {
-
+            Name = "Thermal sensor";
+            TypeSensor = "Thermal sensor";
         }
     }
 }
