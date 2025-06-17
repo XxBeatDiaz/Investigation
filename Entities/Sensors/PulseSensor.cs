@@ -25,11 +25,15 @@ namespace Investigation.Models
             if (CounterBreak <= 0)
             {
                 Console.WriteLine("Break pulse\n");
-                FlagActive = false;
                 isBreak = true;
             }
-            CounterBreak--;
             return isBreak;
+
+        }
+
+        public override void  MinusActivate()
+        {
+            CounterBreak--;
         }
     }
 }

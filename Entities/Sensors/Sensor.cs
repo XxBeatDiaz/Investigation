@@ -28,5 +28,7 @@ namespace Investigation.Models
         {
             return false;
         }
+
+        public virtual void MinusActivate() { }       
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Investigation.Models
@@ -21,16 +22,18 @@ namespace Investigation.Models
                 PrintMenu();
                 int userSensor = int.Parse(Console.ReadLine()!);
                 Sensor sensor = ChooseSensor(userSensor);
-                CheckPlaceForSensor(ref terrorist.Sensors, sensor);
-                int isMatch = Activate(ref terrorist.Sensors, terrorist.Weaknesses);
+                //CheckPlaceForSensor(ref terrorist.Sensors, sensor);
+                int isMatch = Activate(ref terrorist.Sensors, ref terrorist.Weaknesses, sensor);
+                CheckAllSensors(ref terrorist.Sensors, ref terrorist.Weaknesses, ref isMatch);
+
                 Console.WriteLine($"{isMatch}/{terrorist.Weaknesses.Length}\n");
-                foreach (var item in terrorist.Sensors)
+                foreach (Sensor terSen in terrorist.Sensors)
                 {
-                    if (item == null)
+                    if (terSen == null)
                     {
                         continue;
                     }
-                    Console.WriteLine($"{item.Name}: {item.IsActivate()}");
+                    Console.WriteLine($"{terSen.Name}: {terSen.IsActivate()}");
                 }
 
                 counterTurnes++;
@@ -76,19 +79,8 @@ namespace Investigation.Models
             return sensor;
         }
 
-        static private void CheckPlaceForSensor(ref Sensor[] sensors, Sensor sensor)
-        {
-            for (int i = 0; i < sensors.Length; i++)
-            {
-                if (sensors[i] == null || !sensors[i].IsActivate())
-                {
-                    sensors[i] = sensor;
-                    break;
-                }
-            }
-        }
-
-        static private bool CheckSensors(Sensor sensor)
+        //Check specific sensor
+        static private bool CheckSensor(Sensor sensor)
         {
             switch (sensor.TypeSensor)
             {
@@ -100,52 +92,76 @@ namespace Investigation.Models
                     return sensor.IsActivate();
 
 
-                case "Pulse sensor":
-                    return sensor.IsBreak();
+                case "Pulse sensor":                    
+                    if (sensor.IsBreak())
+                    {
+                        sensor.FlagActive = false;
+                    }
+                    else
+                    {
+                        sensor.MinusActivate();
+                    }
+                    return sensor.IsActivate();
+
                 default:
                     return true;
 
             }
         }
 
-        static private int Activate(ref Sensor[] sensors, Sensor[] weaknesses)
+        static private void CheckAllSensors(ref Sensor[] sensors, ref Sensor[] weaknesses, ref int isMatch)
         {
-            int counterActivates = 0;
-            bool[] sensorUsed = new bool[weaknesses.Length];
-
-
-            for (int i = 0; i < sensors.Length; i++)
+            foreach (var item in sensors)
             {
-                if (sensors[i] == null)
+                if (item != null)
                 {
-                    continue;
-                }
-
-                for (int j = 0; j < weaknesses.Length; j++)
-                {
-                    if (sensorUsed[j])
+                    item.FlagActive = CheckSensor(item);
+                    if (!item.FlagActive)
                     {
-                        continue;
-                    }
-
-                    if (weaknesses[j].TypeSensor == sensors[i].TypeSensor)
-                    {
-                        sensorUsed[j] = true;
-                        sensors[i].FlagActive = true;
-                        counterActivates++;
-                        if (CheckSensors(sensors[i]))
+                        isMatch--;
+                        foreach (var item1 in weaknesses)
                         {
-                            sensorUsed[j] = false;
-                            sensors[i].FlagActive = false;
-                            Console.WriteLine($"{sensors[i].TypeSensor}");
-                            break;
+                            if (item1.TypeSensor == item.TypeSensor)
+                            {
+                                item1.FlagActive = false;
+                            }
                         }
-                        break;
-                                            
                     }
                 }
             }
-            return counterActivates;
+        }
+
+        static private int Activate(ref Sensor[] sensors, ref Sensor[] weaknesses, Sensor sensor)
+        {
+            
+            
+            foreach (Sensor  weakness in weaknesses)
+            {
+                if (!weakness.IsActivate() && weakness.TypeSensor == sensor.TypeSensor )
+                {
+                    for (int i = 0; i < sensors.Length; i++)
+                    {
+                        if (sensors[i] == null || !sensors[i].IsActivate()) 
+                        {
+                            weakness.FlagActive = true;
+                            sensor.FlagActive = true;                           
+                            sensors[i] = sensor;
+                            break;
+                        }
+                    }
+                    break;
+                }                
+            }
+
+            int counterActivate = 0;
+            foreach (var item in sensors)
+            {
+                if (item != null && item.IsActivate())
+                {
+                    counterActivate++;
+                }
+            }
+            return counterActivate;
         }
 
         static private bool CheckVictory(Sensor[] sensros)
