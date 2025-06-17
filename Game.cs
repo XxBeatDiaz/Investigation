@@ -22,7 +22,6 @@ namespace Investigation.Models
                 PrintMenu();
                 int userSensor = int.Parse(Console.ReadLine()!);
                 Sensor sensor = ChooseSensor(userSensor);
-                //CheckPlaceForSensor(ref terrorist.Sensors, sensor);
                 int isMatch = Activate(ref terrorist.Sensors, ref terrorist.Weaknesses, sensor);
                 CheckAllSensors(ref terrorist.Sensors, ref terrorist.Weaknesses, ref isMatch);
 
@@ -60,6 +59,7 @@ namespace Investigation.Models
                               $"3. Pulse sensor.");
         }
 
+        //User choosing sensor
         static private Sensor ChooseSensor(int num)
         {
             Sensor sensor = new Sensor();
@@ -109,6 +109,7 @@ namespace Investigation.Models
             }
         }
 
+        //Check all the sensors and return the new match
         static private void CheckAllSensors(ref Sensor[] sensors, ref Sensor[] weaknesses, ref int isMatch)
         {
             foreach (var item in sensors)
@@ -131,6 +132,7 @@ namespace Investigation.Models
             }
         }
 
+        //Check if the sensor exist and add to terrorisr arry for sensors
         static private int Activate(ref Sensor[] sensors, ref Sensor[] weaknesses, Sensor sensor)
         {
             
@@ -164,6 +166,7 @@ namespace Investigation.Models
             return counterActivate;
         }
 
+        //Check if the player won the level
         static private bool CheckVictory(Sensor[] sensros)
         {
             bool isVictory = false;
@@ -178,6 +181,7 @@ namespace Investigation.Models
             return isVictory;
         }
 
+        //Check if the player turnes out of range and stop the game
         static private bool CheckEndTurnes(int amountFailures, int counterFailures)
         {
             bool isEnd = false;
@@ -189,7 +193,7 @@ namespace Investigation.Models
         }
 
 
-        //Optainal for future
+        //Optainal for future to make the game harder
         static private Sensor[] ChoosePlace(Sensor[] weaknesses, Sensor[] sensors, Sensor sensor)
         {
             bool flag = true;
