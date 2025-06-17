@@ -17,7 +17,7 @@ namespace Investigation.Models
         {
             Name = name;
             Weaknesses = weaknesses;
-            Sensors = new Sensor[4];
+            Sensors = new Sensor[weaknesses.Length];
         }
     }
 }
