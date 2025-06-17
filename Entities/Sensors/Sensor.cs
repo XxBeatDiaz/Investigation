@@ -11,6 +11,7 @@ namespace Investigation.Models
         public string? Name { get; set; } 
         public string? TypeSensor { get; set; }
         public bool FlagActive { get; set; }
+        public int CounterBreak { get; set; }
 
         public Sensor()
         {
@@ -30,5 +31,7 @@ namespace Investigation.Models
         }
 
         public virtual void MinusActivate() { }       
+
+
     }
 }

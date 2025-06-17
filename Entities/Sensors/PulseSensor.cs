@@ -10,8 +10,6 @@ namespace Investigation.Models
 {
     public class PulseSensor : Sensor
     {
-        public int CounterBreak;
-
         public PulseSensor() : base()
         {
             Name = "Pulse sensor";

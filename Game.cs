@@ -12,6 +12,7 @@ namespace Investigation.Models
         static public void Menu()
         {
             Sensor[] sensorArry = { new AudioSensor(), new PulseSensor(), new AudioSensor(), new ThermalSensor() };
+            
             Terrorist terrorist = new Terrorist("Gabi", sensorArry);
 
             bool endFlag = true;
@@ -21,8 +22,9 @@ namespace Investigation.Models
             {
                 PrintMenu();
                 int userSensor = int.Parse(Console.ReadLine()!);
-                Sensor sensor = ChooseSensor(userSensor);
+                Sensor sensor = SensorFactory.CreateSensor(userSensor);
                 int isMatch = Activate(ref terrorist.Sensors, ref terrorist.Weaknesses, sensor);
+                CheckDuplicat(ref terrorist.Sensors, ref sensor);
                 CheckAllSensors(ref terrorist.Sensors, ref terrorist.Weaknesses, ref isMatch);
 
                 Console.WriteLine($"{isMatch}/{terrorist.Weaknesses.Length}\n");
@@ -60,26 +62,27 @@ namespace Investigation.Models
         }
 
         //User choosing sensor
-        static private Sensor ChooseSensor(int num)
-        {
-            Sensor sensor = new Sensor();
+        //static private Sensor ChooseSensor(int num)
+        //{
+        //    Sensor sensor = new Sensor();
 
-            if (num == 1)
-            {
-                sensor = new AudioSensor();
-            }
-            else if (num == 2)
-            {
-                sensor = new ThermalSensor();
-            }
-            else if (num == 3)
-            {
-                sensor = new PulseSensor();
-            }
-            return sensor;
-        }
+        //    if (num == 1)
+        //    {
+        //        sensor = new AudioSensor();
+        //    }
+        //    else if (num == 2)
+        //    {
+        //        sensor = new ThermalSensor();
+        //    }
+        //    else if (num == 3)
+        //    {
+        //        sensor = new PulseSensor();
+        //    }
+        //    return sensor;
+        //}
 
         //Check specific sensor
+
         static private bool CheckSensor(Sensor sensor)
         {
             switch (sensor.TypeSensor)
@@ -127,6 +130,24 @@ namespace Investigation.Models
                                 item1.FlagActive = false;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        //Check duplicat for breakable sensors
+        static private void CheckDuplicat(ref Sensor[] sensors, ref Sensor sensor)
+        {
+            foreach (var item in sensors)
+            {
+                if (item != null && sensor.TypeSensor == "Pulse sensor" && item.TypeSensor == "Pulse sensor")
+                {
+                    if (item.CounterBreak < 1)
+                    {
+                        int idx = Array.IndexOf(sensors, item);
+                        sensor.FlagActive = true;
+                        sensors[idx] = sensor;
+                        break;
                     }
                 }
             }
