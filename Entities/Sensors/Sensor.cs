@@ -19,16 +19,16 @@ namespace Investigation.Models
             FlagActive = false;
         }
 
-        public bool IsActivate(Sensor[] weaknesses)
+        public bool IsActivate()
+        {            
+            return FlagActive;
+        }
+
+        public virtual bool IsBreak()
         {
-            for (int i = 0; i < weaknesses.Length; i++)
-            {
-                if (TypeSensor == weaknesses[i].TypeSensor)
-                {
-                    return true;
-                }
-            }
             return false;
         }
+
+        public virtual void MinusActivate() { }       
     }
 }

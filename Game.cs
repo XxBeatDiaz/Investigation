@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Investigation.Models
@@ -10,20 +11,29 @@ namespace Investigation.Models
     {
         static public void Menu()
         {
-            Sensor[] sensorArry = { new AudioSensor(), new AudioSensor() };
-            Terrorist terrorist = new Terrorist("Avi", sensorArry);
+            Sensor[] sensorArry = { new AudioSensor(), new PulseSensor(), new AudioSensor(), new ThermalSensor() };
+            Terrorist terrorist = new Terrorist("Gabi", sensorArry);
 
             bool endFlag = true;
             int counterTurnes = 1;
-            int amountFailures = 7;
+            int amountFailures = 10;
             while (endFlag)
             {
                 PrintMenu();
                 int userSensor = int.Parse(Console.ReadLine()!);
-                Sensor sensor = ChooseSensor(userSensor);               
-                CheckSensor(ref terrorist.Sensors, sensor);
-                int isMatch = Activate(ref terrorist.Sensors, terrorist.Weaknesses);
-                Console.WriteLine($"{isMatch}/{terrorist.Weaknesses.Length}");
+                Sensor sensor = ChooseSensor(userSensor);
+                int isMatch = Activate(ref terrorist.Sensors, ref terrorist.Weaknesses, sensor);
+                CheckAllSensors(ref terrorist.Sensors, ref terrorist.Weaknesses, ref isMatch);
+
+                Console.WriteLine($"{isMatch}/{terrorist.Weaknesses.Length}\n");
+                foreach (Sensor terSen in terrorist.Sensors)
+                {
+                    if (terSen == null)
+                    {
+                        continue;
+                    }
+                    Console.WriteLine($"{terSen.Name}: {terSen.IsActivate()}");
+                }
 
                 counterTurnes++;
 
@@ -32,7 +42,7 @@ namespace Investigation.Models
                     Console.WriteLine($"You are the winner.");
                     endFlag = false;
                 }
-                else if(CheckEndTurnes(amountFailures, counterTurnes))
+                else if (CheckEndTurnes(amountFailures, counterTurnes))
                 {
                     Console.WriteLine($"You lose the game.");
                     endFlag = false;
@@ -45,9 +55,11 @@ namespace Investigation.Models
         {
             Console.WriteLine("Which sensor to add?");
             Console.WriteLine($"1. Audio sensor.\n" +
-                              $"2. Thermal sensor");
+                              $"2. Thermal sensor.\n" +
+                              $"3. Pulse sensor.");
         }
 
+        //User choosing sensor
         static private Sensor ChooseSensor(int num)
         {
             Sensor sensor = new Sensor();
@@ -60,58 +72,107 @@ namespace Investigation.Models
             {
                 sensor = new ThermalSensor();
             }
+            else if (num == 3)
+            {
+                sensor = new PulseSensor();
+            }
             return sensor;
         }
 
-        static private void CheckSensor(ref Sensor[] sensors, Sensor sensor)
+        //Check specific sensor
+        static private bool CheckSensor(Sensor sensor)
         {
-            for (int i = 0; i < sensors.Length; i++)
+            switch (sensor.TypeSensor)
             {
-                if (sensors[i] == null || sensors[i].FlagActive == false)
-                {
-                    sensors[i] = sensor;
-                    break; 
-                }
+                case "Audio sensor":
+                    return sensor.IsActivate();
+
+
+                case "Thermal sensor":
+                    return sensor.IsActivate();
+
+
+                case "Pulse sensor":                    
+                    if (sensor.IsBreak())
+                    {
+                        sensor.FlagActive = false;
+                    }
+                    else
+                    {
+                        sensor.MinusActivate();
+                    }
+                    return sensor.IsActivate();
+
+                default:
+                    return true;
+
             }
         }
 
-        static private int Activate(ref Sensor[] sensors, Sensor[] weaknesses)
+        //Check all the sensors and return the new match
+        static private void CheckAllSensors(ref Sensor[] sensors, ref Sensor[] weaknesses, ref int isMatch)
         {
-            int counterActivates = 0;
-            bool[] sensorUsed = new bool[weaknesses.Length]; 
-
-            for (int i = 0; i < sensors.Length; i++)
+            foreach (var item in sensors)
             {
-                if (sensors[i] == null)
+                if (item != null)
                 {
-                    continue;
-                }
-                    
-                for (int j = 0; j < weaknesses.Length; j++)
-                {
-                    if (sensorUsed[j])
+                    item.FlagActive = CheckSensor(item);
+                    if (!item.FlagActive)
                     {
-                        continue;
-                    } 
-
-                    if ( weaknesses[j].TypeSensor == sensors[i].TypeSensor)
-                    {
-                        sensorUsed[j] = true;
-                        sensors[i].FlagActive = true;
-                        counterActivates++;
-                        break; 
+                        isMatch--;
+                        foreach (var item1 in weaknesses)
+                        {
+                            if (item1.TypeSensor == item.TypeSensor)
+                            {
+                                item1.FlagActive = false;
+                            }
+                        }
                     }
                 }
             }
-            return counterActivates;
         }
-   
+
+        //Check if the sensor exist and add to terrorisr arry for sensors
+        static private int Activate(ref Sensor[] sensors, ref Sensor[] weaknesses, Sensor sensor)
+        {
+            
+            
+            foreach (Sensor  weakness in weaknesses)
+            {
+                if (!weakness.IsActivate() && weakness.TypeSensor == sensor.TypeSensor )
+                {
+                    for (int i = 0; i < sensors.Length; i++)
+                    {
+                        if (sensors[i] == null || !sensors[i].IsActivate()) 
+                        {
+                            weakness.FlagActive = true;
+                            sensor.FlagActive = true;                           
+                            sensors[i] = sensor;
+                            break;
+                        }
+                    }
+                    break;
+                }                
+            }
+
+            int counterActivate = 0;
+            foreach (var item in sensors)
+            {
+                if (item != null && item.IsActivate())
+                {
+                    counterActivate++;
+                }
+            }
+            return counterActivate;
+        }
+
+        //Check if the player won the level
         static private bool CheckVictory(Sensor[] sensros)
         {
             bool isVictory = false;
             foreach (Sensor sensor in sensros)
             {
-                if (sensor == null|| sensor.FlagActive == false )
+                if (sensor == null || sensor.FlagActive == false)
                 {
                     return isVictory;
                 }
@@ -120,6 +181,7 @@ namespace Investigation.Models
             return isVictory;
         }
 
+        //Check if the player turnes out of range and stop the game
         static private bool CheckEndTurnes(int amountFailures, int counterFailures)
         {
             bool isEnd = false;
@@ -129,9 +191,9 @@ namespace Investigation.Models
             }
             return isEnd;
         }
-        
 
-        //Optainal for future
+
+        //Optainal for future to make the game harder
         static private Sensor[] ChoosePlace(Sensor[] weaknesses, Sensor[] sensors, Sensor sensor)
         {
             bool flag = true;
@@ -140,7 +202,7 @@ namespace Investigation.Models
                 Console.Write($"Choose place from: 0 to: {weaknesses.Length - 1}: ");
                 int userPlace = int.Parse(Console.ReadLine()!);
 
-                if (userPlace < 0 || userPlace > weaknesses.Length -1)
+                if (userPlace < 0 || userPlace > weaknesses.Length - 1)
                 {
                     continue;
                 }
