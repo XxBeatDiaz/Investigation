@@ -11,9 +11,8 @@ namespace Investigation.Models
     {
         static public void Menu()
         {
-            Sensor[] sensorArry = { new AudioSensor(), new PulseSensor(), new AudioSensor(), new ThermalSensor() };
-            
-            Terrorist terrorist = new Terrorist("Gabi", sensorArry);
+            int level1 = 2;
+            Terrorist terrorist =  TerroristFactory.CreateTerrorist(level1);
 
             bool endFlag = true;
             int counterTurnes = 1;

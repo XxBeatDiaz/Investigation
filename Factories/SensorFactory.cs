@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Investigation.Models
 {
-    public class SensorFactory 
+    public static class SensorFactory 
     {
         static public Sensor CreateSensor(int type)
         {
