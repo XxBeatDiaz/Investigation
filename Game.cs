@@ -82,6 +82,7 @@ namespace Investigation.Models
         //}
 
         //Check specific sensor
+
         static private bool CheckSensor(Sensor sensor)
         {
             switch (sensor.TypeSensor)
