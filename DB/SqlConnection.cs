@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Investigation.DB
+namespace Investigation.Models
 {
     class SqlConnection
     {

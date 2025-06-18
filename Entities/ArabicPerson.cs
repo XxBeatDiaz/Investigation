@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Investigation.Entities
+namespace Investigation.Models
 {
     class ArabicPerson
     {
