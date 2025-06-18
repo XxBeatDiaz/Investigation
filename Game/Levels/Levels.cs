@@ -295,7 +295,6 @@ namespace Investigation.Models
         static private int Activate(ref Sensor[] sensors, ref Sensor[] weaknesses, Sensor sensor)
         {
 
-
             foreach (Sensor weakness in weaknesses)
             {
                 if (!weakness.IsActivate() && weakness.TypeSensor == sensor.TypeSensor)
@@ -340,7 +339,7 @@ namespace Investigation.Models
             return isVictory;
         }
 
-        //Check if the player turnes out of range and stop the game
+        //Check if the player turns out of range and stop the level
         static private bool CheckLose(int amountFailures, int counterFailures)
         {
             bool isEnd = false;
