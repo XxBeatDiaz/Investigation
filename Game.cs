@@ -9,10 +9,11 @@ namespace Investigation.Models
 {
     public class Game
     {
+        static TerroristFactory terroristFactory = new();
         static public void Menu()
         {
-            int level1 = 2;
-            Terrorist terrorist =  TerroristFactory.CreateTerrorist(level1);
+            int level_1 = 1;
+            Terrorist terrorist = terroristFactory.CreateTerrorist(level_1);
 
             bool endFlag = true;
             int counterTurnes = 1;
@@ -60,28 +61,7 @@ namespace Investigation.Models
                               $"3. Pulse sensor.");
         }
 
-        //User choosing sensor
-        //static private Sensor ChooseSensor(int num)
-        //{
-        //    Sensor sensor = new Sensor();
-
-        //    if (num == 1)
-        //    {
-        //        sensor = new AudioSensor();
-        //    }
-        //    else if (num == 2)
-        //    {
-        //        sensor = new ThermalSensor();
-        //    }
-        //    else if (num == 3)
-        //    {
-        //        sensor = new PulseSensor();
-        //    }
-        //    return sensor;
-        //}
-
         //Check specific sensor
-
         static private bool CheckSensor(Sensor sensor)
         {
             switch (sensor.TypeSensor)
@@ -141,7 +121,7 @@ namespace Investigation.Models
             {
                 if (item != null && sensor.TypeSensor == "Pulse sensor" && item.TypeSensor == "Pulse sensor")
                 {
-                    if (item.CounterBreak < 1)
+                    if (item.CounterBreak < 1 && item.IsActivate())
                     {
                         int idx = Array.IndexOf(sensors, item);
                         sensor.FlagActive = true;
