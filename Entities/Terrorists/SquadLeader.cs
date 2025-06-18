@@ -8,71 +8,28 @@ namespace Investigation.Models
 {
     public class SquadLeader : Terrorist
     {
-        int CounterTurnes;
+        int CounterTurns;
 
         public SquadLeader(string name, Sensor[] weaknesses) : base(name, weaknesses)
         {
-            CounterTurnes = 4;
+            CounterTurns = 4;
         }
 
-        //CounterTurnes min 1
-        public int CountDown()
+        //CounterTurns min 1
+        public override int CountDown()
         {
-            return CounterTurnes--;
+            return CounterTurns--;
         }
 
-        //Check if CounterTurnes is done
-        public bool CheckTurnes()
+        //Check if CounterTurns is done
+        public override bool EndCounterTurns()
         {
-            if (CounterTurnes <= 0)
+            if (CounterTurns <= 0)
             {
-                CounterTurnes = 4;
-                return false; 
+                CounterTurns = 4;
+                return true; 
             }
-            return true;
-        }
-
-        //Remove sensor after CounterTurnes is done
-        public Sensor RemoveSensor()
-        {
-            int length = Sensors.Length;
-            Sensor sensor = Sensors[length];
-
-            while (true)
-            {
-                sensor = Sensors[length];
-                if (!sensor.IsActivate())
-                {
-                    if (length <= 0)
-                    {
-                        //Default remove
-                        sensor = Sensors[Sensors.Length];
-                        break;
-                    }
-                    length--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            Sensors[length] = null!;
-            return sensor;
-        }
-
-        //If the sensor is true change to false if false change to true
-        public void UpdateWeaknessActivate(Sensor sensor)
-        {
-            int idx = Array.IndexOf(Weaknesses, sensor);
-            if (sensor.IsActivate())
-            {
-                Weaknesses[idx].FlagActive = false; 
-            }
-            else
-            {
-                Weaknesses[idx].FlagActive = true;
-            }
+            return false;
         }
     }
 }
