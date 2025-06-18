@@ -12,12 +12,12 @@ namespace Investigation.Models
         static TerroristFactory terroristFactory = new();
         static public void Menu()
         {
-            int level_1 = 1;
+            int level_1 = 2;
             Terrorist terrorist = terroristFactory.CreateTerrorist(level_1);
 
             bool endFlag = true;
-            int counterTurnes = 1;
-            int amountFailures = 10;
+            int counterTurns = 1;
+            int amountFailurs = 10;
             while (endFlag)
             {
                 PrintMenu();
@@ -37,18 +37,18 @@ namespace Investigation.Models
                     Console.WriteLine($"{terSen.Name}: {terSen.IsActivate()}");
                 }
 
-                counterTurnes++;
 
                 if (CheckVictory(terrorist.Sensors))
                 {
                     Console.WriteLine($"You are the winner.");
                     endFlag = false;
                 }
-                else if (CheckEndTurnes(amountFailures, counterTurnes))
+                else if (CheckEndTurns(amountFailurs, counterTurns))
                 {
                     Console.WriteLine($"You lose the game.");
                     endFlag = false;
                 }
+                counterTurns++;
             }
         }
 
@@ -181,8 +181,8 @@ namespace Investigation.Models
             return isVictory;
         }
 
-        //Check if the player turnes out of range and stop the game
-        static private bool CheckEndTurnes(int amountFailures, int counterFailures)
+        //Check if the player turns out of range and stop the game
+        static private bool CheckEndTurns(int amountFailures, int counterFailures)
         {
             bool isEnd = false;
             if (counterFailures >= amountFailures)

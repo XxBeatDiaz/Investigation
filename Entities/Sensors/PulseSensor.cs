@@ -17,18 +17,20 @@ namespace Investigation.Models
             CounterBreak = 3;
         }
 
+        //Check if the sensor break
         public override bool IsBreak()
         {
             bool isBreak = false;
             if (CounterBreak <= 0)
             {
-                Console.WriteLine("Break pulse\n");
+                Console.WriteLine("\nBreak sensor: pulse");
                 isBreak = true;
             }
             return isBreak;
 
         }
 
+        //Minus activae by 1
         public override void  MinusActivate()
         {
             CounterBreak--;
