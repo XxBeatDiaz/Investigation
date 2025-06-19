@@ -11,7 +11,20 @@ namespace Investigation.Models
     {
         public static void StartGame()
         {
-            
+            bool gameOver = false;
+            while (!gameOver)
+            {
+                Console.Clear();
+                Menu.PrintMenu();
+                Console.Write("Choos: ");
+                int intChoos = int.Parse(Console.ReadLine()!);
+                string choos = Menu.NumToChoos(intChoos);
+                bool end = Menu.MainMenu(choos);
+                if (end)
+                {
+                    gameOver = true;
+                }
+            }
         }
     }
 }

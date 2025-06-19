@@ -11,11 +11,20 @@ namespace Investigation.Models
     {
         static public Sensor CreateSensor(int type)
         {
-            if (type == 1) return new AudioSensor();
-            if (type == 2) return new ThermalSensor();
-            if (type == 3) return new PulseSensor();
+            switch (type)
+            {
+                case 1:
+                    return new AudioSensor();
 
-            else return new Sensor();
+                case 2:
+                    return new ThermalSensor();
+
+                case 3:
+                    return new PulseSensor();
+
+                default:
+                     return new Sensor();
+            }
         }
     }
 }

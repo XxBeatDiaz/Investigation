@@ -9,10 +9,10 @@ namespace Investigation.Models
 {
     public class Levels
     {
-        static TerroristFactory terroristFactory = new();
-
         static public void LevelOne(int levelOne = 1)
         {
+            Console.Clear();
+            TerroristFactory terroristFactory = new();
             Terrorist terrorist = terroristFactory.CreateTerrorist(levelOne);
             Console.WriteLine($"||||||||Level one||||||||\n");
             Console.WriteLine($"Fight against: {terrorist.Name}\n");
@@ -48,15 +48,17 @@ namespace Investigation.Models
                 //Win or lose
                 if (CheckVictory(terrorist.Sensors))
                 {
-                    Console.WriteLine($"You are the winner.");
                     Console.WriteLine($"{isMatch}/{terrorist.Weaknesses.Length}\n");
+                    Console.WriteLine($"Winnnnneeer > Level Completed.\n");
+                    ResetLevel(terrorist);
                     gameOver = true;
                     continue;
                 }
                 else if (CheckLose(amountFailures, counterTurns))
                 {
-                    Console.WriteLine($"You lose the game.");
                     Console.WriteLine($"{isMatch}/{terrorist.Weaknesses.Length}\n");
+                    Console.WriteLine($"Loser.\n");
+                    ResetLevel(terrorist);
                     gameOver = true;
                     continue;
                 }
@@ -67,8 +69,10 @@ namespace Investigation.Models
             }
         }
 
-        static public void LevelTwo(int levelTwo= 2)
+        static public void LevelTwo(int levelTwo = 2)
         {
+            Console.Clear();
+            TerroristFactory terroristFactory = new();
             Terrorist terrorist = terroristFactory.CreateTerrorist(levelTwo);
             Console.WriteLine($"||||||||Level two||||||||\n");
             Console.WriteLine($"Fight against: {terrorist.Name}\n");
@@ -104,14 +108,16 @@ namespace Investigation.Models
                 if (CheckVictory(terrorist.Sensors))
                 {
                     Console.WriteLine($"\n{isMatch}/{terrorist.Weaknesses.Length}\n");
-                    Console.WriteLine($"You are the winner.");
+                    Console.WriteLine($"You prrrooo. > Level completed.\n");
+                    ResetLevel(terrorist);
                     endFlag = false;
                     continue;
                 }
                 else if (CheckLose(amountFailures, counterTurns))
                 {
                     Console.WriteLine($"\n{isMatch}/{terrorist.Weaknesses.Length}\n");
-                    Console.WriteLine($"You lose the game.");
+                    Console.WriteLine($"Loser.\n");
+                    ResetLevel(terrorist);
                     endFlag = false;
                     continue;
                 }
@@ -134,6 +140,8 @@ namespace Investigation.Models
 
         static public void LevelThree(int levelThree = 3)
         {
+            Console.Clear();
+            TerroristFactory terroristFactory = new();
             Terrorist terrorist = terroristFactory.CreateTerrorist(levelThree);
             Console.WriteLine($"||||||||Level three||||||||\n");
             Console.WriteLine($"Fight against: {terrorist.Name}\n");
@@ -169,14 +177,16 @@ namespace Investigation.Models
                 if (CheckVictory(terrorist.Sensors))
                 {
                     Console.WriteLine($"\n{isMatch}/{terrorist.Weaknesses.Length}\n");
-                    Console.WriteLine($"You are the winner.");
+                    Console.WriteLine($"You crazzzzzzyyy. > Level completed.\n");
+                    ResetLevel(terrorist);
                     endFlag = false;
                     continue;
                 }
                 else if (CheckLose(amountFailures, counterTurns))
                 {
                     Console.WriteLine($"\n{isMatch}/{terrorist.Weaknesses.Length}\n");
-                    Console.WriteLine($"You lose the game.");
+                    Console.WriteLine($"Loser.\n");
+                    ResetLevel(terrorist);
                     endFlag = false;
                     continue;
                 }
@@ -196,19 +206,6 @@ namespace Investigation.Models
                 counterTurns++;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -351,6 +348,27 @@ namespace Investigation.Models
                 isEnd = true;
             }
             return isEnd;
+        }
+
+        //Reset the current level
+        static private void ResetLevel(Terrorist terrorist)
+        {
+            for (int i = 0; i < terrorist.Weaknesses.Length; i++)
+            {
+                terrorist.Weaknesses[i] = SensorFactory.CreateSensor(Rand());
+            }
+            for (int i = 0; i < terrorist.Sensors.Length; i++)
+            {
+                terrorist.Sensors[i] = null!;
+            }
+        }
+
+        //Help func random num
+        static private int Rand()
+        {
+            Random rand = new();
+            int num = rand.Next(1, 4);
+            return num;
         }
 
 

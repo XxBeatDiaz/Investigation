@@ -8,10 +8,12 @@ namespace Investigation.Models
 {
     public class LevelsManager
     {
-        public static void NewGame()
+        public static string NewGame()
         {
-            string levelOne = "LevelOne";
-            ChoosLevel(levelOne);
+            string levelOne = "Level one";
+            string end = ChoosLevel(levelOne);
+            return end;
+
         }
 
         public static string NumToLevel(int num)
@@ -28,11 +30,11 @@ namespace Investigation.Models
                     return "Level three";
 
                 default:
-                    return "Level three";
+                    return "Level one";
             }
         }
 
-        public static void ChoosLevel(string level)
+        public static string ChoosLevel(string level)
         {
             bool gameOver = false;
             while (!gameOver)
@@ -41,28 +43,55 @@ namespace Investigation.Models
                 {
                     case "Level one":
                         Levels.LevelOne();
-                        level = "Level two";
-                        break;
+                        PrintEndLevelMenu();
+                        int choosEnd1 = int.Parse(Console.ReadLine()!);
+                        string end1 = EndLevelMenu(choosEnd1);
+                        if (end1 == "Next level")
+                        {
+                            level = "Level two";
+                            break;
+                        }
+                        else
+                        {
+                            return end1;
+                        }
 
                     case "Level two":
                         Levels.LevelTwo();
-                        level = "Level three";
-                        break;
+                        PrintEndLevelMenu();
+                        int choosEnd2 = int.Parse(Console.ReadLine()!);
+                        string end2 = EndLevelMenu(choosEnd2);
+                        if (end2 == "Next level")
+                        {
+                            level = "Level three";
+                            break;
+                        }
+                        else
+                        {
+                            return end2;
+                        }
 
                     case "Level three":
                         Levels.LevelThree();
-                        level = "Done";
-                        break;
-
-                    case "Done":
-                        gameOver = true;
-                        break;
+                        PrintEndLevelMenu();
+                        int choosEnd3 = int.Parse(Console.ReadLine()!);
+                        string end3 = EndLevelMenu(choosEnd3);
+                        if (end3 == "Next level")
+                        {
+                            gameOver = true;
+                            break;
+                        }
+                        else
+                        {
+                            return end3;
+                        }
 
                     default:
                         gameOver = true;
                         break;
                 }
             }
+            return "Main menu";
         }
 
         static public void LevelsList()
@@ -85,6 +114,33 @@ namespace Investigation.Models
                               $" \n" +
                               $"Expert:\n" +
                               $"10. Boss level.\n");
+        }
+
+        static public string EndLevelMenu(int num)
+        {
+            switch (num)
+            {
+                case 1:
+                    return "Next level";
+
+                case 2:
+                    return "Levels";
+
+                case 3:
+                    return "Main menu";
+
+                default:
+                    return "Next level";
+                   
+
+            }
+        }                 
+
+        static public void PrintEndLevelMenu()
+        {
+            Console.WriteLine($"1. Next level\n" +
+                              $"2. Levels.\n" +
+                              $"3. Main menu.");
         }
     }
 }

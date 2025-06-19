@@ -8,33 +8,50 @@ namespace Investigation.Models
 {
     public class Menu
     {
-        static public void MainMenu(string choos)
+        static public bool MainMenu(string choos)
         {
-            switch (choos)
+            bool exit = false;
+            bool gameOver = false;
+            while (!gameOver)
             {
-                case "New game":
-                    LevelsManager.NewGame();
-                    break;
+                switch (choos)
+                {
+                    case "New game":
+                        string end = LevelsManager.NewGame();
+                        choos = end;
+                        break;
 
-                case "Levels":
-                    LevelsManager.LevelsList();
-                    Console.Write("Choos: ");
-                    int choosLevel = int.Parse(Console.ReadLine()!);
-                    LevelsMenu(choosLevel);
-                    break;
+                    case "Levels":
+                        Console.Clear();
+                        LevelsManager.LevelsList();
+                        Console.Write("Choos: ");
+                        int choosLevel = int.Parse(Console.ReadLine()!);
+                        string endChoos = LevelsMenu(choosLevel);
+                        choos = endChoos;
+                        break;
 
-                case "Settings":
-                    break;
+                    case "Settings":
+                        gameOver = true;
+                        break;
 
-                case "Exit":
-                    break;
+                    case "Exit":
+                        exit = true;
+                        gameOver = true;
+                        break;
+
+                    default:
+                        gameOver = true;
+                        break;
+                }
             }
+            return exit;
         }
 
-        static public void LevelsMenu(int choss)
+        static public string LevelsMenu(int choss)
         {
             string level = LevelsManager.NumToLevel(choss);
-            LevelsManager.ChoosLevel(level);
+            string end = LevelsManager.ChoosLevel(level);
+            return end;
         }
       
         static public void PrintMenu()
