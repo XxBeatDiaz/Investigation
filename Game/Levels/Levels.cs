@@ -11,9 +11,10 @@ namespace Investigation.Models
     {
         static TerroristFactory terroristFactory = new();
 
-        static public void Level_1(int level_1 = 1)
+        static public void LevelOne(int levelOne = 1)
         {
-            Terrorist terrorist = terroristFactory.CreateTerrorist(level_1);
+            Terrorist terrorist = terroristFactory.CreateTerrorist(levelOne);
+            Console.WriteLine($"||||||||Level one||||||||\n");
             Console.WriteLine($"Fight against: {terrorist.Name}\n");
 
             int counterTurns = 1;
@@ -66,9 +67,10 @@ namespace Investigation.Models
             }
         }
 
-        static public void Level_2(int level_2 = 2)
+        static public void LevelTwo(int levelTwo= 2)
         {
-            Terrorist terrorist = terroristFactory.CreateTerrorist(level_2);
+            Terrorist terrorist = terroristFactory.CreateTerrorist(levelTwo);
+            Console.WriteLine($"||||||||Level two||||||||\n");
             Console.WriteLine($"Fight against: {terrorist.Name}\n");
 
             int counterTurns = 1;
@@ -130,9 +132,10 @@ namespace Investigation.Models
             }
         }
 
-        static public void Level_3(int level_3 = 3)
+        static public void LevelThree(int levelThree = 3)
         {
-            Terrorist terrorist = terroristFactory.CreateTerrorist(level_3);
+            Terrorist terrorist = terroristFactory.CreateTerrorist(levelThree);
+            Console.WriteLine($"||||||||Level three||||||||\n");
             Console.WriteLine($"Fight against: {terrorist.Name}\n");
 
             int counterTurns = 1;

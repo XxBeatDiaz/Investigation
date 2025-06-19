@@ -5,7 +5,7 @@ namespace Investigation
     {
         static void Main(string[] args)
         {
-            Levels.Level_2(2);
+            Game.StartGame();
         }
     }
 }

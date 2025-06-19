@@ -8,44 +8,61 @@ namespace Investigation.Models
 {
     public class LevelsManager
     {
-        public void ChoosLevel(string level)
+        public static void NewGame()
         {
-            switch (level)
+            string levelOne = "LevelOne";
+            ChoosLevel(levelOne);
+        }
+
+        public static string NumToLevel(int num)
+        {
+            switch (num)
             {
-                case "Level one":
-                    Levels.Level_1();
-                    break;
+                case 1:
+                    return "Level one";
 
-                case "Level two":
-                    Levels.Level_2();
-                    break;
+                case 2:
+                    return "Level two";
 
-                case "Level three":
-                    Levels.Level_3();
-                    break;
-                    
+                case 3:
+                    return "Level three";
+
+                default:
+                    return "Level three";
             }
         }
 
-
-        public void LevelList()
+        public static void ChoosLevel(string level)
         {
-            Console.WriteLine($"Beginners: " +
-                              $"1. Level one." +
-                              $"2. Level two." +
-                              $"3. Level three." +
-                              $" " +
-                              $"Advanced: " +
-                              $"4. Level four." +
-                              $"5. Level five." +
-                              $"6. Level six." +
-                              $" " +
-                              $"Pros: " +
-                              $"7. Level seven." +
-                              $"8. Level eight." +
-                              $"9. Level ten." +
-                              $" " +
-                              $"10. Boss level.");    
+            bool gameOver = false;
+            while (!gameOver)
+            {
+                switch (level)
+                {
+                    case "Level one":
+                        Levels.LevelOne();
+                        level = "Level two";
+                        break;
+
+                    case "Level two":
+                        Levels.LevelTwo();
+                        level = "Level three";
+                        break;
+
+                    case "Level three":
+                        Levels.LevelThree();
+                        level = "Done";
+                        break;
+
+                    case "Done":
+                        gameOver = true;
+                        break;
+
+                    default:
+                        gameOver = true;
+                        break;
+                }
+            }
         }
     }
 }
