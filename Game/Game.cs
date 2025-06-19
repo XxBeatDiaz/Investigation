@@ -11,10 +11,7 @@ namespace Investigation.Models
     {
         public static void StartGame()
         {
-            Menu.LevelsList();
-            Console.Write("Choos: ");
-            int choos = int.Parse(Console.ReadLine()!);
-            Menu.LevelsMenu(choos);
+            
         }
     }
 }

@@ -8,9 +8,27 @@ namespace Investigation.Models
 {
     public class Menu
     {
-        static public void MainMenu()
+        static public void MainMenu(string choos)
         {
+            switch (choos)
+            {
+                case "New game":
+                    LevelsManager.NewGame();
+                    break;
 
+                case "Levels":
+                    LevelsManager.LevelsList();
+                    Console.Write("Choos: ");
+                    int choosLevel = int.Parse(Console.ReadLine()!);
+                    LevelsMenu(choosLevel);
+                    break;
+
+                case "Settings":
+                    break;
+
+                case "Exit":
+                    break;
+            }
         }
 
         static public void LevelsMenu(int choss)
@@ -18,27 +36,35 @@ namespace Investigation.Models
             string level = LevelsManager.NumToLevel(choss);
             LevelsManager.ChoosLevel(level);
         }
-
-        static public void LevelsList()
+      
+        static public void PrintMenu()
         {
-            Console.WriteLine($"Beginners:\n" +
-                              $"1. Level one.\n" +
-                              $"2. Level two.\n" +
-                              $"3. Level three.\n" +
-                              $" \n" +
-                              $"||||Not available now||||\n" +
-                              $"Advanced:\n" +
-                              $"4. Level four.\n" +
-                              $"5. Level five.\n" +
-                              $"6. Level six.\n" +
-                              $" \n" +
-                              $"Pros:\n" +
-                              $"7. Level seven.\n" +
-                              $"8. Level eight.\n" +
-                              $"9. Level ten.\n" +
-                              $" \n" +
-                              $"Expert:\n" +
-                              $"10. Boss level.\n");
+            Console.WriteLine($"|||||| ''INVESTIGATION'' ||||||\n" +
+                              $"1. New game.\n" +
+                              $"2. Levels\n" +
+                              $"3. Settings\n" +
+                              $"4. Exit");
+        }
+
+        static public string NumToChoos(int num)
+        {
+            switch (num)
+            {
+                case 1:
+                    return "New game";
+
+                case 2:
+                    return "Levels";
+
+                case 3:
+                    return "Settings";
+
+                case 4:
+                    return "Exit";
+
+                default:
+                    return "Exit";
+            }
         }
     }
 }
