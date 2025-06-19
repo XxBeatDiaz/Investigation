@@ -45,8 +45,6 @@ namespace Investigation.Models
                 {
                     if (length <= 0)
                     {
-                        //Default remove
-                        sensor = Sensors[Sensors.Length];
                         break;
                     }
                     length--;
@@ -58,7 +56,7 @@ namespace Investigation.Models
             }
 
             Sensors[length] = null!;
-            return sensor;
+            return sensor!;
         }
 
         //If the sensor is true change to false if false change to true (virtual)
