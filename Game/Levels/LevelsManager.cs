@@ -42,7 +42,7 @@ namespace Investigation.Models
                 switch (level)
                 {
                     case "Level one":
-                        Levels.LevelOne();
+                        Level.LevelOne();
                         PrintEndLevelMenu();
                         int choosEnd1 = int.Parse(Console.ReadLine()!);
                         string end1 = EndLevelMenu(choosEnd1);
@@ -57,7 +57,7 @@ namespace Investigation.Models
                         }
 
                     case "Level two":
-                        Levels.LevelTwo();
+                        Level.LevelTwo();
                         PrintEndLevelMenu();
                         int choosEnd2 = int.Parse(Console.ReadLine()!);
                         string end2 = EndLevelMenu(choosEnd2);
@@ -72,7 +72,7 @@ namespace Investigation.Models
                         }
 
                     case "Level three":
-                        Levels.LevelThree();
+                        Level.LevelThree();
                         PrintEndLevelMenu();
                         int choosEnd3 = int.Parse(Console.ReadLine()!);
                         string end3 = EndLevelMenu(choosEnd3);

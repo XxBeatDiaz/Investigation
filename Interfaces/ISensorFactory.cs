@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Investigation.Models
 {
-    interface ITerroristFactory
+    interface ISensorFactory
     {
-        Terrorist CreateTerrorist(int type);
+        Sensor CreateSensor(int type);
     }
 }
