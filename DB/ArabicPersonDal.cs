@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Investigation.Models
 {
-    interface ITerroristFactory
+    class ArabicPersonDal
     {
-        Terrorist CreateTerrorist(int type);
     }
 }

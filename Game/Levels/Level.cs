@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Investigation.Models
 {
-    public class Levels
+    public class Level
     {
         static public void LevelOne(int levelOne = 1)
         {
